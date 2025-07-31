@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import EditModal from "./EditModal";
 import { BiRotateLeft } from "react-icons/bi";
 import DeleteModal from "./DeleteDialogModal";
-import { Card } from "./ui/Card";
+import { Card } from "./ui/card";
 
 const Table = ({ data, title }) => {
   const [editItem, setEditItem] = useState(null);
