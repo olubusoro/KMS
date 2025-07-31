@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import FetchData from "../Utils/FetchData";
-import { Card } from "./ui/Card";
+import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import { Modal } from "./ui/modal";
 import { FaEdit } from "react-icons/fa";
