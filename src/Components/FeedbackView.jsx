@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card } from "./ui/Card";
+import { Card } from "./ui/card";
 import { Table, TableHeader, TableRow, TableCell, TableBody } from "./ui/table";
 import { Button } from "./ui/button";
 import { Modal } from "./ui/modal";
