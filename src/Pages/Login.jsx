@@ -57,7 +57,7 @@ const Login = () => {
         toast.success("Login successful!");
 
         // Navigate to dashboard layout and refresh to load sidebar correctly
-        navigate("/dashboardLayout");
+        navigate("/");
         // setTimeout(() => navigate(0), 200); // Refresh after short delay
       } else {
         toast.error(data.message || "Login failed.");
