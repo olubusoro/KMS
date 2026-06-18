@@ -1,14 +1,428 @@
+/* ── Base layout ──────────────────────────────────────────────────────────── */
+
 .main {
-    margin: 0;
-    height: 100vh;
-    background: linear-gradient(to right, #1eaf45 50%, #ffffff 50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  margin: 0;
+  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(to right, #1eaf45 50%, #ffffff 50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .card {
-    width: 1308px;
+  width: min(1308px, 97vw);
+  height: min(820px, 95vh);
+  border: 15px solid rgb(180, 195, 180);
+  border-radius: 52px;
+  display: flex;
+  overflow: hidden;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 1.25rem 2rem 1rem;
+  overflow: hidden;
+}
+
+/* ── Title ────────────────────────────────────────────────────────────────── */
+
+.title {
+  text-align: center;
+  font-size: clamp(1.3rem, 2.2vw, 2.2rem);
+  font-family: roboto, sans-serif;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.title span {
+  color: #1eaf45;
+}
+
+/* ── Two-column body ──────────────────────────────────────────────────────── */
+
+.card-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 1.5rem;
+  flex: 1;
+  overflow: hidden;
+  padding: 0;
+}
+
+/* ── Left column: login form ─────────────────────────────────────────────── */
+
+h1 {
+  font-family: roboto, sans-serif;
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 100%;
+  letter-spacing: 0.3px;
+  text-align: center;
+}
+
+.login {
+  flex: 0 0 auto;
+  width: 320px;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.login h1 {
+  margin-left: 0;
+  color: #ffffff;
+  font-size: clamp(2rem, 3.5vw, 3.3rem);
+  font-weight: 400;
+  font-family: lalezar, sans-serif;
+  line-height: 100%;
+  letter-spacing: 0;
+  margin-bottom: 0.75rem;
+}
+
+.email {
+  position: relative;
+}
+
+.email-icon {
+  position: absolute;
+  left: 10px;
+  top: 70%;
+  transform: translateY(-50%);
+}
+
+.email input {
+  padding: 10px 10px 10px 35px;
+}
+
+.password input {
+  padding: 10px 10px 10px 35px;
+}
+
+.password {
+  position: relative;
+}
+
+.password-icon {
+  position: absolute;
+  left: 10px;
+  top: 70%;
+  transform: translateY(-50%);
+}
+
+.login form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login label {
+  margin-top: 12px;
+}
+
+.login input {
+  width: 100%;
+  max-width: 380px;
+  background-color: #ffffff;
+  margin-top: 18px;
+  border: 1px solid red;
+  border-radius: 10px;
+}
+
+.btn {
+  margin-top: 28px;
+  margin-left: 0;
+  padding: 10px;
+  background-color: rgb(212, 86, 86);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.btn:active {
+  opacity: 0.7;
+}
+
+/* ── Right column: logo + demo panel ─────────────────────────────────────── */
+
+.right-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  overflow: hidden;
+  padding: 0.5rem 0;
+}
+
+.logo {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo img {
+  width: clamp(80px, 12vw, 160px);
+  height: clamp(80px, 12vw, 160px);
+  object-fit: contain;
+}
+
+.logo p {
+  color: red;
+  text-align: center;
+  padding-top: 0.35rem;
+  font-family: Allan, sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(0.75rem, 1.2vw, 1rem);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* Demo Access Panel                                                           */
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+.demo-panel {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 16px;
+  padding: 0.9rem 1rem 1rem;
+  backdrop-filter: blur(6px);
+}
+
+.demo-panel__header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.65rem;
+}
+
+.demo-panel__badge {
+  background: #fff;
+  color: #1eaf45;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  padding: 2px 7px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.demo-panel__title {
+  font-family: roboto, sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #fff;
+  margin: 0;
+}
+
+.demo-panel__subtitle {
+  width: 100%;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+}
+
+.demo-panel__subtitle strong {
+  color: #fff;
+}
+
+/* Vertical stack inside the right column */
+.demo-panel__cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.demo-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 11px;
+  padding: 0.55rem 0.75rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.6rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.demo-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.15);
+}
+
+.demo-card__avatar {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #1eaf45;
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 0.04em;
+}
+
+.demo-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+}
+
+.demo-card__role {
+  font-family: roboto, sans-serif;
+  font-weight: 700;
+  font-size: 0.78rem;
+  color: #1a1a1a;
+}
+
+.demo-card__email {
+  font-size: 0.64rem;
+  color: #555;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.demo-card__btn {
+  flex-shrink: 0;
+  padding: 6px 10px;
+  background: #1eaf45;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.demo-card__btn:hover {
+  background: #178c38;
+}
+
+.demo-card__btn:active {
+  opacity: 0.75;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .main {
+    background: #1eaf45;
+    align-items: flex-start;
+    overflow-y: auto;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .card {
+    flex-direction: column;
+    width: 95vw;
+    height: auto;
+    min-height: unset;
+    border-width: 8px;
+    border-radius: 24px;
+    margin: 1rem 0;
+  }
+
+  .card-content {
+    padding: 1rem 1rem 1.5rem;
+    overflow: visible;
+  }
+
+  .card-body {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    overflow: visible;
+  }
+
+  .login {
+    width: 100%;
+    padding: 0;
+  }
+
+  .login h1 {
+    font-size: 2rem;
+    color: gray;
+    text-align: center;
+  }
+
+  .login input {
+    max-width: 100%;
+  }
+
+  .btn {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .right-panel {
+    flex-direction: column;
+    width: 100%;
+    padding: 0;
+  }
+
+  .logo img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .demo-panel {
+    background: rgba(0, 0, 0, 0.15);
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .card {
+    width: 100vw;
+    border-width: 4px;
+    border-radius: 10px;
+  }
+
+  .login h1 {
+    font-size: 1.5rem;
+  }
+
+  .logo img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .title {
+    font-size: 1.1rem;
+  }
+
+  .demo-card__btn {
+    padding: 5px 8px;
+    font-size: 0.68rem;
+  }
+}
+
     height: 756px;
     border: 15px solid rgb(180, 195, 180);
     border-radius: 52px;
@@ -253,4 +667,178 @@ transform: translateY(-50%);
   }
 }
 
+/* ─────────────────────────────────────────────────────────────────────────── */
+/* Demo Access Panel                                                           */
+/* ─────────────────────────────────────────────────────────────────────────── */
 
+.demo-panel {
+  margin: 1.5rem 2rem 1rem;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 20px;
+  padding: 1.25rem 1.5rem 1.5rem;
+  backdrop-filter: blur(6px);
+}
+
+.demo-panel__header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.demo-panel__badge {
+  background: #fff;
+  color: #1eaf45;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  padding: 2px 8px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.demo-panel__title {
+  font-family: roboto, sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #fff;
+  margin: 0;
+}
+
+.demo-panel__subtitle {
+  width: 100%;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+}
+
+.demo-panel__subtitle strong {
+  color: #fff;
+}
+
+/* Three-column grid — collapses on small screens */
+.demo-panel__cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.demo-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.demo-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
+}
+
+.demo-card__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #1eaf45;
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 0.04em;
+}
+
+.demo-card__info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+}
+
+.demo-card__role {
+  font-family: roboto, sans-serif;
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: #1a1a1a;
+}
+
+.demo-card__email {
+  font-size: 0.68rem;
+  color: #555;
+  word-break: break-all;
+}
+
+.demo-card__btn {
+  margin-top: 0.35rem;
+  width: 100%;
+  padding: 7px 10px;
+  background: #1eaf45;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.demo-card__btn:hover {
+  background: #178c38;
+}
+
+.demo-card__btn:active {
+  opacity: 0.75;
+}
+
+/* Responsive: collapse cards to rows on mobile */
+@media (max-width: 800px) {
+  .demo-panel {
+    margin: 1rem 0 0;
+    border-radius: 14px;
+  }
+
+  .demo-panel__cards {
+    grid-template-columns: 1fr;
+  }
+
+  .demo-card {
+    flex-direction: row;
+    text-align: left;
+    gap: 0.75rem;
+  }
+
+  .demo-card__info {
+    align-items: flex-start;
+    flex: 1;
+  }
+
+  .demo-card__btn {
+    width: auto;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 500px) {
+  .demo-panel {
+    padding: 1rem;
+  }
+
+  .demo-card {
+    flex-wrap: wrap;
+  }
+
+  .demo-card__btn {
+    width: 100%;
+  }
+}

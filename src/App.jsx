@@ -22,15 +22,14 @@ function App() {
       <Toaster />
      <Routes>
       {/* Public Route */}
-      {/* <Route path="/" element={<Login />} /> */}
+      <Route path="/login" element={<Login />} />
 
-      {/* Private Layout with Sidebar + Topbar */}
-      {/* <Route path="/dashboardLayout" element={
+      {/* Private Layout with Sidebar + Topbar — ProtectedRoute enforces login */}
+      <Route path="/" element={
         <ProtectedRoute>
           <DashboardLayout />
         </ProtectedRoute>
-        }> */}
-         <Route path="/" element={<DashboardLayout />}>
+      }>
         <Route index element={<IndexPage />} />
         <Route path="new-post" element={<Post />}>
           <Route path="editor" element={<Editor />} />

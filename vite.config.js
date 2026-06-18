@@ -5,4 +5,15 @@ import {defineConfig} from "vite";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  server: {
+    // Allows your backend to talk to your frontend, even across different ports
+    proxy: {
+      // any request starting with /api will be forwarded to the backend
+      "/api": {
+        target: "http://localhost:5085", 
+        changeOrigin: true, 
+        secure: false, // set to false if your backend uses http
+      },
+    },
+  },
 });

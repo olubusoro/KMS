@@ -12,7 +12,7 @@ environ();
 const Users = () => {
     const [open, setOpen] = useState(false);
     const [users, setUsers] = useState([]);
-    const baseUrl = import.meta.env.VITE_BACKEND_URL || "https://localhost:7161";
+    const baseUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5085";
     
     useEffect(() => {
         fetchUsers();

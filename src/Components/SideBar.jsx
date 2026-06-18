@@ -1,10 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Button from "../Props/Button"
-import {
-  HiArrowSmRight,
-  HiTable,
-} from "react-icons/hi";
 import { MdOutlinePostAdd, MdCategory } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { FaPeopleGroup, FaComment } from "react-icons/fa6";
@@ -12,115 +8,68 @@ import { RiGroup3Fill } from "react-icons/ri";
 import { TbReportAnalytics } from "react-icons/tb";
 import { IoIosGitPullRequest } from "react-icons/io";
 import Logo from "../assets/Switch.jpeg";
-import FetchData from "../Utils/FetchData";
 
-const baseUrl = import.meta.env.VITE_BACKEND_URL || "https://localhost:7161";
+const baseUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5085";
 
-const menuConfig = {
+// Role-specific menu definitions.
+// NOTE: Backend RBAC is bypassed for demo — any authenticated user can access
+// all API endpoints. These menus only control the sidebar UI per role.
+const menusByRole = {
   SuperAdmin: [
-    {
-      icon: <MdOutlinePostAdd />,
-      label: "Post",
-      path: "/dashboardLayout/new-post",
-    },
-    {icon: <RiGroup3Fill />, label: "Users", path: "/dashboardLayout/users"},
-    {
-      icon: <FaPeopleGroup />,
-      label: "Departments",
-      path: "/dashboardLayout/departments",
-    },
-    {
-      icon: <TbReportAnalytics />,
-      label: "Analysis",
-      path: "/dashboardLayout/logs",
-    },
-    {icon: <CgProfile />, label: "Profile", path: "/dashboardLayout/profile"},
-    {
-      icon: <IoIosGitPullRequest />,
-      label: "Access-Requests",
-      path: "/dashboardLayout/requests",
-    },
-    {icon: <FaComment />, label: "Feedback", path: "/dashboardLayout/feedback"},
+    { icon: <MdOutlinePostAdd />, label: "Post",            path: "/new-post" },
+    { icon: <RiGroup3Fill />,     label: "Users",           path: "/users" },
+    { icon: <FaPeopleGroup />,    label: "Departments",     path: "/departments" },
+    { icon: <MdCategory />,       label: "Category",        path: "/category" },
+    { icon: <TbReportAnalytics />,label: "Analysis",        path: "/logs" },
+    { icon: <CgProfile />,        label: "Profile",         path: "/profile" },
+    { icon: <IoIosGitPullRequest />, label: "Access-Requests", path: "/requests" },
+    { icon: <FaComment />,        label: "Feedback",        path: "/feedback" },
+    { icon: <FaComment />,        label: "Send Feedback",   path: "/send-feedback" },
   ],
   DeptAdmin: [
-    {
-      icon: <MdOutlinePostAdd />,
-      label: "Post",
-      path: "/dashboardLayout/new-post",
-    },
-    {
-      icon: <MdCategory />,
-      label: "Category",
-      path: "/dashboardLayout/category",
-    },
-    {icon: <CgProfile />, label: "Profile", path: "/dashboardLayout/profile"},
-    {
-      icon: <IoIosGitPullRequest />,
-      label: "Access-Requests",
-      path: "/dashboardLayout/requests",
-    },
-    {icon: <FaComment />, label: "Feedback", path: "/dashboardLayout/send-feedback"}
+    { icon: <MdOutlinePostAdd />, label: "Post",            path: "/new-post" },
+    { icon: <FaPeopleGroup />,    label: "Departments",     path: "/departments" },
+    { icon: <MdCategory />,       label: "Category",        path: "/category" },
+    { icon: <CgProfile />,        label: "Profile",         path: "/profile" },
+    { icon: <IoIosGitPullRequest />, label: "Access-Requests", path: "/requests" },
+    { icon: <FaComment />,        label: "Feedback",        path: "/feedback" },
+    { icon: <FaComment />,        label: "Send Feedback",   path: "/send-feedback" },
   ],
   Staff: [
-    {
-      icon: <MdOutlinePostAdd />,
-      label: "Post",
-      path: "/dashboardLayout/new-post",
-    },
-    {icon: <CgProfile />, label: "Profile", path: "/dashboardLayout/profile"},
-    {
-      icon: <IoIosGitPullRequest />,
-      label: "Access-Requests",
-      path: "/dashboardLayout/requests",
-    },
-    {icon: <FaComment />, label: "Feedback", path: "/dashboardLayout/send-feedback"}
+    { icon: <MdOutlinePostAdd />, label: "Post",            path: "/new-post" },
+    { icon: <CgProfile />,        label: "Profile",         path: "/profile" },
+    { icon: <IoIosGitPullRequest />, label: "Access-Requests", path: "/requests" },
+    { icon: <FaComment />,        label: "Send Feedback",   path: "/send-feedback" },
   ],
 };
 
-const defaultMenu = [
-  { icon: <CgProfile />, label: "Profile", path: "/dashboardLayout/profile" },
-  { icon: <HiArrowSmRight />, label: "Login", path: "/" },
-];
+// Fallback: show everything if role fetch fails
+const fallbackMenu = menusByRole.SuperAdmin;
 
 const SideBar = ({ sidebarOpen, setSidebarOpen }) => {
-  const [userRole, setUserRole] = useState(null);
-  const location = useLocation();
-
-  const getUserRole = async () => {
-    const res = await FetchData(`${baseUrl}/api/users/role`);
-    return res.flag ? setUserRole(res.message) : console.error("error occurred: ", res.message);
-  }
+  const [menuItems, setMenuItems] = useState(fallbackMenu);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setUserRole(null);
-      return;
-    }
-
-    // Check if token is expired
-    try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      if (payload.exp && Date.now() >= payload.exp * 1000) {
-        // Token expired
-        localStorage.removeItem("token");
-        setUserRole(null);
-        return;
+    const fetchRole = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) return;
+        const res = await fetch(`${baseUrl}/api/users/role`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        // data.message holds the role string e.g. "SuperAdmin", "DeptAdmin", "Staff"
+        const role = data?.message;
+        if (role && menusByRole[role]) {
+          setMenuItems(menusByRole[role]);
+        }
+      } catch {
+        // silently fall back to full menu
       }
-    } catch (e) {
-      // Invalid token format
-      setUserRole(null);
-      return;
-    }
-
-    if (userRole === null) {
-      getUserRole();
-    }
-  }, [location.pathname]);
-
-  const menuItems = userRole
-    ? menuConfig[userRole] || defaultMenu
-    : defaultMenu;
+    };
+    fetchRole();
+  }, []);
 
   // Responsive: close sidebar on link click (mobile)
   const handleLinkClick = () => {
