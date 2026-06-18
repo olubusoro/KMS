@@ -8,7 +8,7 @@ import {jwtDecode} from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
-const baseUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5085";
+const baseUrl = import.meta.env.VITE_BACKEND_URL || "https://kms-backend-49bd.onrender.com";
 
 // ── Demo accounts (portfolio / recruiter access) ───────────────────────────
 const DEMO_ACCOUNTS = [
