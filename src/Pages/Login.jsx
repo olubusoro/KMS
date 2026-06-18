@@ -12,9 +12,9 @@ const baseUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5085";
 
 // ── Demo accounts (portfolio / recruiter access) ───────────────────────────
 const DEMO_ACCOUNTS = [
-  { role: "Super Admin", badge: "SA", email: "demo.superadmin@cskms.com", password: "Demo123!" },
-  { role: "Admin",       badge: "A",  email: "demo.admin@cskms.com",       password: "Demo123!" },
-  { role: "Staff",       badge: "S",  email: "demo.staff@cskms.com",       password: "Demo123!" },
+  { role: "Super Admin", badge: "SA", email: "sa@kms.com", password: "password123" },
+  { role: "Admin",       badge: "A",  email: "da@kms.com",       password: "password123" },
+  { role: "Staff",       badge: "S",  email: "staff@kms.com",       password: "password123" },
 ];
 // ──────────────────────────────────────────────────────────────────────────
 
