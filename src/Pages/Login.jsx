@@ -8,12 +8,27 @@ import {jwtDecode} from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
-const baseUrl = import.meta.env.VITE_BACKEND_URL || "https://localhost:7161";
+const baseUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5085";
+
+// ── Demo accounts (portfolio / recruiter access) ───────────────────────────
+const DEMO_ACCOUNTS = [
+  { role: "Super Admin", badge: "SA", email: "demo.superadmin@cskms.com", password: "Demo123!" },
+  { role: "Admin",       badge: "A",  email: "demo.admin@cskms.com",       password: "Demo123!" },
+  { role: "Staff",       badge: "S",  email: "demo.staff@cskms.com",       password: "Demo123!" },
+];
+// ──────────────────────────────────────────────────────────────────────────
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  /** Pre-fill credentials — user still clicks Login to submit */
+  const fillDemo = (account) => {
+    setEmail(account.email);
+    setPassword(account.password);
+    toast("Credentials filled — click Login to continue.", { icon: "🔑" });
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -108,9 +123,43 @@ const Login = () => {
                 />
               </form>
             </div>
-            <div className="logo">
-              <img src={Logo} alt="logo" />
-              <p>"connect with your colleagues with ease"</p>
+
+            {/* RIGHT COLUMN: logo + demo panel */}
+            <div className="right-panel">
+              <div className="logo">
+                <img src={Logo} alt="logo" />
+                <p>"connect with your colleagues with ease"</p>
+              </div>
+
+              {/* ── Demo Access Panel ─────────────────────────────────── */}
+              <div className="demo-panel">
+                <div className="demo-panel__header">
+                  <span className="demo-panel__badge">DEMO</span>
+                  <p className="demo-panel__title">Portfolio / Recruiter Access</p>
+                  <p className="demo-panel__subtitle">
+                    Click a role to pre-fill credentials, then press&nbsp;<strong>Login</strong>.
+                  </p>
+                </div>
+                <div className="demo-panel__cards">
+                  {DEMO_ACCOUNTS.map((account) => (
+                    <div key={account.role} className="demo-card">
+                      <div className="demo-card__avatar">{account.badge}</div>
+                      <div className="demo-card__info">
+                        <span className="demo-card__role">{account.role}</span>
+                        <span className="demo-card__email">{account.email}</span>
+                      </div>
+                      <button
+                        type="button"
+                        className="demo-card__btn"
+                        onClick={() => fillDemo(account)}
+                      >
+                        Login as {account.role}
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              {/* ──────────────────────────────────────────────────────── */}
             </div>
           </div>
         </div>

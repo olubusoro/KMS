@@ -11,7 +11,7 @@ const DepartmentList = () => {
     const [loading, setLoading] = useState(true);
     const [selectedDepartment, setSelectedDepartment] = useState(null);
     const [editForm, setEditForm] = useState(null);
-    const baseUrl = import.meta.env.VITE_BACKEND_URL || "https://localhost:7161";
+    const baseUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5085";
 
     const fetchDepartments = async () => {
         try{

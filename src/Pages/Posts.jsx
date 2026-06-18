@@ -12,7 +12,7 @@ const Posts = () => {
   const fetchPosts = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("https://localhost:7161/api/Posts", {
+      const res = await fetch("http://localhost:5085/api/Posts", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

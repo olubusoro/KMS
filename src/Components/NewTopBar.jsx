@@ -8,10 +8,11 @@ const TopBar = ({onSearch}) => {
   const [search, setSearch] = useState("");
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([]);
+  const baseUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5085";
 
   useEffect(() => {
     const fetchNotifications = async () => {
-      const res = await fetch("https://localhost:7161/api/notifications", {
+      const res = await fetch(`${baseUrl}/api/notifications`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

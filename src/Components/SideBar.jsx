@@ -1,5 +1,5 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Button from "../Props/Button"
 import { MdOutlinePostAdd, MdCategory } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
@@ -9,24 +9,67 @@ import { TbReportAnalytics } from "react-icons/tb";
 import { IoIosGitPullRequest } from "react-icons/io";
 import Logo from "../assets/Switch.jpeg";
 
-const baseUrl = import.meta.env.VITE_BACKEND_URL || "https://localhost:7161";
+const baseUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5085";
 
-// Demo mode: single unified menu visible to all authenticated users.
-// To restore RBAC, revert this file and SideBar will re-read role from /api/users/role.
-const menuItems = [
-  { icon: <MdOutlinePostAdd />, label: "Post",            path: "/new-post" },
-  { icon: <RiGroup3Fill />,     label: "Users",           path: "/users" },
-  { icon: <FaPeopleGroup />,    label: "Departments",     path: "/departments" },
-  { icon: <MdCategory />,       label: "Category",        path: "/category" },
-  { icon: <TbReportAnalytics />,label: "Analysis",        path: "/logs" },
-  { icon: <CgProfile />,        label: "Profile",         path: "/profile" },
-  { icon: <IoIosGitPullRequest />, label: "Access-Requests", path: "/requests" },
-  { icon: <FaComment />,        label: "Feedback",        path: "/feedback" },
-  { icon: <FaComment />,        label: "Send Feedback",   path: "/send-feedback" },
-];
+// Role-specific menu definitions.
+// NOTE: Backend RBAC is bypassed for demo — any authenticated user can access
+// all API endpoints. These menus only control the sidebar UI per role.
+const menusByRole = {
+  SuperAdmin: [
+    { icon: <MdOutlinePostAdd />, label: "Post",            path: "/new-post" },
+    { icon: <RiGroup3Fill />,     label: "Users",           path: "/users" },
+    { icon: <FaPeopleGroup />,    label: "Departments",     path: "/departments" },
+    { icon: <MdCategory />,       label: "Category",        path: "/category" },
+    { icon: <TbReportAnalytics />,label: "Analysis",        path: "/logs" },
+    { icon: <CgProfile />,        label: "Profile",         path: "/profile" },
+    { icon: <IoIosGitPullRequest />, label: "Access-Requests", path: "/requests" },
+    { icon: <FaComment />,        label: "Feedback",        path: "/feedback" },
+    { icon: <FaComment />,        label: "Send Feedback",   path: "/send-feedback" },
+  ],
+  DeptAdmin: [
+    { icon: <MdOutlinePostAdd />, label: "Post",            path: "/new-post" },
+    { icon: <FaPeopleGroup />,    label: "Departments",     path: "/departments" },
+    { icon: <MdCategory />,       label: "Category",        path: "/category" },
+    { icon: <CgProfile />,        label: "Profile",         path: "/profile" },
+    { icon: <IoIosGitPullRequest />, label: "Access-Requests", path: "/requests" },
+    { icon: <FaComment />,        label: "Feedback",        path: "/feedback" },
+    { icon: <FaComment />,        label: "Send Feedback",   path: "/send-feedback" },
+  ],
+  Staff: [
+    { icon: <MdOutlinePostAdd />, label: "Post",            path: "/new-post" },
+    { icon: <CgProfile />,        label: "Profile",         path: "/profile" },
+    { icon: <IoIosGitPullRequest />, label: "Access-Requests", path: "/requests" },
+    { icon: <FaComment />,        label: "Send Feedback",   path: "/send-feedback" },
+  ],
+};
+
+// Fallback: show everything if role fetch fails
+const fallbackMenu = menusByRole.SuperAdmin;
 
 const SideBar = ({ sidebarOpen, setSidebarOpen }) => {
-  const location = useLocation();
+  const [menuItems, setMenuItems] = useState(fallbackMenu);
+
+  useEffect(() => {
+    const fetchRole = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) return;
+        const res = await fetch(`${baseUrl}/api/users/role`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        // data.message holds the role string e.g. "SuperAdmin", "DeptAdmin", "Staff"
+        const role = data?.message;
+        if (role && menusByRole[role]) {
+          setMenuItems(menusByRole[role]);
+        }
+      } catch {
+        // silently fall back to full menu
+      }
+    };
+    fetchRole();
+  }, []);
 
   // Responsive: close sidebar on link click (mobile)
   const handleLinkClick = () => {

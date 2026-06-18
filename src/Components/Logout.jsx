@@ -9,7 +9,7 @@ const Logout = () => {
     const handleLogout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("userRole");
-        navigate("/",{replace: true});
+        navigate("/login", { replace: true });
     };
 
   return (
