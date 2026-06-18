@@ -12,7 +12,7 @@ const Posts = () => {
   const fetchPosts = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:5085/api/Posts", {
+      const res = await fetch("https://kms-backend-49bd.onrender.com/api/Posts", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

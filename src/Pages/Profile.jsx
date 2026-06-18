@@ -12,7 +12,7 @@ const roles = {
 
 const Profile = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const baseUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5085";
+  const baseUrl = import.meta.env.VITE_BACKEND_URL || "https://kms-backend-49bd.onrender.com";
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);

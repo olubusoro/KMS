@@ -10,7 +10,7 @@ export default defineConfig({
     proxy: {
       // any request starting with /api will be forwarded to the backend
       "/api": {
-        target: "http://localhost:5085", 
+        target: "https://kms-backend-49bd.onrender.com/", 
         changeOrigin: true, 
         secure: false, // set to false if your backend uses http
       },
